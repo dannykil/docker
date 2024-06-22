@@ -1,0 +1,49 @@
+# https://github.com/codingspecialist/docker-study
+# docker compose up -d
+version: "3"
+services:
+  db:
+    build:
+      # context를 설정안하면 Dockerfile이 COPY할 때 init.sql을 못찾음
+      context: ./db
+      dockerfile: Dockerfile
+    ports:
+      - 33060:3306
+    volumes:
+      - ./db/store:/var/lib/mysql
+    networks:
+      - network
+
+  backend:
+    build:
+      context: ./product
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8081:8080
+    # (중요)depands_on: 여기에 작성한 serviceName이 정상적으로 구성되어야 server가 올라감
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/metadb?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root1234
+    # (중요)networks: 같은 네트워크로 연결하기 위해서는 동일한 키워드를 사용해야하며 키워드는 하단 networks: 아래에 지정함 >>> db연결할 때 IP를 적지 않아도 되게됨
+    networks:
+      - network
+
+  frontend:
+    build:
+      context: ./my-app
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    networks:
+      - network
+
+networks:
+  network:

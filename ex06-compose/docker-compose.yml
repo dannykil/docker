@@ -1,0 +1,16 @@
+# 파일명 오타나면 안됨
+# mysqldb라는 이름은 바껴도 되나 그 하위는 안됨
+# 실행 : docker compose up -d
+services:
+  mysqldb:
+    image: mysql
+    restart: always
+    volumes:
+      - mysql-compose-volume:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root1234
+      - MYSQL_DATABASE=root
+    ports:
+      - "3307:3306"
+volumes:
+  mysql-compose-volume:
