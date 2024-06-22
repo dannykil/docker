@@ -12,3 +12,6 @@ ENV MYSQL_DATABASE=metadb
 ENV MYSQL_HOST=% 
 
 CMD ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+
+# docker network 및 alias 지정해야 compose로 올라갔던 네트워크에 다시 올릴 수 있음
+# docker run -d --name ex09-db-1 --net ex09_network --net-alias db -p 33060:3306 ex09-db
