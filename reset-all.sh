@@ -9,3 +9,15 @@ docker rmi $(docker images -qa)
 
 # 4) Deleteing all of the volumes
 docker volume rm $(docker volume ls -qf dangling=true)
+
+# 5) Deleteing all of configurations like network
+docker system prune -f
+
+# 6) Check results
+docker ps -a
+docker images
+docker volume ls
+docker network ls
+
+
+

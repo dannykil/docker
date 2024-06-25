@@ -28,3 +28,9 @@ ENTRYPOINT ["nginx", "-g", "daemon off;"]
 # 5. 실행 및 네트워크 연결여부 확인
 # docker inspect [네트워크ID] 
 # containers 내 새로 배포한 컨테이너가 저장됐는지 확인 
+
+# docker compose up -d 로 인해 구성된 네트워크에 다시 넣으면서 컨테이너 올리는 명령어
+# docker run -d --name ex09-frontend-1 --net ex09_network --net-alias frontend -p 80:80 ex09-frontend
+
+# 1) 컨테이너 삭제 후 재빌드v
+# 2) 이미지까지 삭제 후 다운로드 미 재빌드
